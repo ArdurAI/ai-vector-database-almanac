@@ -1,0 +1,574 @@
+{
+  "meta": {
+    "name": "Vector Databases & RAG Infrastructure Almanac Roster",
+    "version": "2026-06",
+    "generated_at": "2026-06-16T22:46:00Z",
+    "total_tools": 80,
+    "parent_almanac": "ArdurAI/ai-infrastructure-almanac",
+    "research_method": "8-facet wide exploration, 112+ independent searches, 8 parallel agents"
+  },
+  "category": "vector-databases",
+  "category_name": "Vector Databases & RAG Infrastructure",
+  "tools": [
+    {
+      "name": "Pinecone",
+      "type": "Managed Vector DB",
+      "license": "Proprietary",
+      "tier": "A",
+      "notes": "Market leader (~28% share); zero-ops serverless; $0.033/hr; sub-50ms p99 at billion scale"
+    },
+    {
+      "name": "Qdrant",
+      "type": "Vector DB",
+      "license": "Apache-2.0",
+      "tier": "A",
+      "notes": "~22K stars; Rust-based; self-host + cloud; ACORN filtered HNSW; $50M Series B (Mar 2026)"
+    },
+    {
+      "name": "Weaviate",
+      "type": "Vector DB",
+      "license": "BSD-3-Clause",
+      "tier": "A",
+      "notes": "~12K stars; hybrid search (BM25+vector); multimodal; GraphQL; Engram memory layer"
+    },
+    {
+      "name": "Milvus",
+      "type": "Vector DB",
+      "license": "Apache-2.0",
+      "tier": "A",
+      "notes": "~42K stars; billion-scale; GPU accel; K8s-native; Zilliz Cloud = managed"
+    },
+    {
+      "name": "Chroma",
+      "type": "Embedded Vector DB",
+      "license": "Apache-2.0",
+      "tier": "A",
+      "notes": "~16K stars; developer experience; pip install; Rust rewrite 4x faster; Context-1 agentic search"
+    },
+    {
+      "name": "pgvector",
+      "type": "Postgres Extension",
+      "license": "PostgreSQL",
+      "tier": "A",
+      "notes": "~13-20K stars; HNSW + IVFFlat; pgvectorscale adds StreamingDiskANN; up to 5-10M vectors"
+    },
+    {
+      "name": "Zilliz / Vector Lakebase",
+      "type": "Managed (Milvus-based)",
+      "license": "Proprietary",
+      "tier": "A",
+      "notes": "100B+ scale; lake-native; S3-based Vortex format; on-demand compute; Cardinal engine 10x"
+    },
+    {
+      "name": "Turbopuffer",
+      "type": "Managed Serverless",
+      "license": "Proprietary",
+      "tier": "A",
+      "notes": "Object-storage-first; no namespace limits; 10-100x cheaper at rest; native BM25"
+    },
+    {
+      "name": "Vorkath",
+      "type": "Managed Vector DB",
+      "license": "Proprietary",
+      "tier": "A",
+      "notes": "Bare-metal NVMe; $1/mo for 1M vec/1M q; no cold starts; Vamana graph in RAM"
+    },
+    {
+      "name": "LanceDB",
+      "type": "Embedded/Serverless",
+      "license": "Apache-2.0",
+      "tier": "A",
+      "notes": "~5K stars; edge, local-first; zero-copy columnar; no server required; Cloud in beta"
+    },
+    {
+      "name": "Elasticsearch / ESRE",
+      "type": "Search+Vector",
+      "license": "Elastic/AGPLv3",
+      "tier": "A",
+      "notes": "~30K+ stars; enterprise search; GPU accel in v3.0; re-added AGPL 2024"
+    },
+    {
+      "name": "OpenSearch",
+      "type": "Search+Vector",
+      "license": "Apache-2.0",
+      "tier": "A",
+      "notes": "~9.5K stars; AWS alternative; GPU-accelerated indexing v3.0; gRPC + MCP"
+    },
+    {
+      "name": "Redis Vector",
+      "type": "In-Memory Extension",
+      "license": "BSD/Proprietary",
+      "tier": "A",
+      "notes": "Sub-ms latency; caching; memory-bound; Redis Enterprise Cloud"
+    },
+    {
+      "name": "MongoDB Atlas Vector Search",
+      "type": "Document+Vector",
+      "license": "Proprietary",
+      "tier": "B",
+      "notes": "Vectors as native field; not for pure vector; Atlas $5K-70K/year"
+    },
+    {
+      "name": "SingleStore",
+      "type": "Analytics+Vector",
+      "license": "Proprietary",
+      "tier": "B",
+      "notes": "Real-time analytics + AI; trillion-row/sec claims; opaque pricing"
+    },
+    {
+      "name": "DataStax Astra (Cassandra)",
+      "type": "Managed (Cassandra)",
+      "license": "Proprietary",
+      "tier": "B",
+      "notes": "Real-time updates; immediate consistency; Cassandra 5.0 native vector + SAI"
+    },
+    {
+      "name": "Marqo",
+      "type": "End-to-End Vector",
+      "license": "Apache-2.0",
+      "tier": "B",
+      "notes": "~2K stars; multimodal (text+image+video); built-in embedding; $5.2M seed"
+    },
+    {
+      "name": "ClickHouse",
+      "type": "Columnar+Vector",
+      "license": "Apache-2.0",
+      "tier": "B",
+      "notes": "~46K stars; analytics + vector search; native vector search functions"
+    },
+    {
+      "name": "DuckDB",
+      "type": "Analytical+Vector",
+      "license": "MIT",
+      "tier": "B",
+      "notes": "~36K stars; embedded analytics + vector; integrated vector similarity search"
+    },
+    {
+      "name": "Oracle AI Database 26ai",
+      "type": "Enterprise DB+Vector",
+      "license": "Proprietary",
+      "tier": "B",
+      "notes": "Unified Hybrid Vector Search; vectors + relational + JSON + graph in one query"
+    },
+    {
+      "name": "Apache Cassandra 5.0",
+      "type": "Distributed DB+Vector",
+      "license": "Apache-2.0",
+      "tier": "B",
+      "notes": "AI-driven similarity search; vector data type + Storage-Attached Indexes"
+    },
+    {
+      "name": "Vald",
+      "type": "Distributed ANN",
+      "license": "Apache-2.0",
+      "tier": "B",
+      "notes": "Cloud-native; billion-scale ANN; auto-indexing, backup, horizontal scaling"
+    },
+    {
+      "name": "Cloudflare Vectorize",
+      "type": "Edge Managed",
+      "license": "Proprietary",
+      "tier": "B",
+      "notes": "Workers ecosystem; 50K namespaces; 5M vector cap; auto-RAG; no hybrid search"
+    },
+    {
+      "name": "Turso / sqlite-vec",
+      "type": "Edge Distributed",
+      "license": "MIT (libSQL)",
+      "tier": "B",
+      "notes": "Per-user vector isolation; SQLite with DiskANN; embedded replicas; $5/mo for 25M queries"
+    },
+    {
+      "name": "Vespa",
+      "type": "Vector+Search Engine",
+      "license": "Apache-2.0",
+      "tier": "B",
+      "notes": "Real-time, hybrid AI search; Yahoo, Spotify; strong ranking + vector"
+    },
+    {
+      "name": "FAISS",
+      "type": "ANN Library",
+      "license": "MIT",
+      "tier": "A",
+      "notes": "~39K stars; GPU-accelerated billion-scale; Meta; IVF, HNSW, RaBitQ; cuVS GPU"
+    },
+    {
+      "name": "ScaNN",
+      "type": "ANN Library",
+      "license": "Apache-2.0",
+      "tier": "A",
+      "notes": "~31.5K stars; Google-scale inner product; SOAR algorithm; dynamic updates v1.3.0"
+    },
+    {
+      "name": "HNSWlib",
+      "type": "ANN Library",
+      "license": "Apache-2.0",
+      "tier": "B",
+      "notes": "~7K stars; lightweight CPU HNSW; header-only C++; no GPU; 15+ mo since last release"
+    },
+    {
+      "name": "DiskANN",
+      "type": "Disk-Based ANN",
+      "license": "MIT",
+      "tier": "B",
+      "notes": "~2K stars; billion-scale SSD-backed; memory-efficient; used by pgvectorscale, Turso"
+    },
+    {
+      "name": "USearch",
+      "type": "ANN Library",
+      "license": "Apache-2.0",
+      "tier": "B",
+      "notes": "~4K stars; SIMD-optimized vector search; fast index builds; cross-language bindings"
+    },
+    {
+      "name": "LangChain / LangGraph",
+      "type": "RAG Framework",
+      "license": "MIT",
+      "tier": "A",
+      "notes": "~90K+ combined; chain orchestration; 100+ LLM integrations; MCP support"
+    },
+    {
+      "name": "LlamaIndex",
+      "type": "RAG Framework",
+      "license": "MIT",
+      "tier": "A",
+      "notes": "~40K+ stars; document indexing; retrieval optimization; hierarchical chunking; hybrid index"
+    },
+    {
+      "name": "Haystack",
+      "type": "RAG Framework",
+      "license": "Apache-2.0",
+      "tier": "A",
+      "notes": "Modular search pipelines; enterprise search + LLM integration; deepset Cloud"
+    },
+    {
+      "name": "Ragas",
+      "type": "RAG Eval",
+      "license": "Apache-2.0",
+      "tier": "A",
+      "notes": "Most-cited; reference-free RAG evaluation; faithfulness, relevancy, precision, recall"
+    },
+    {
+      "name": "TruLens",
+      "type": "RAG Eval+Tracing",
+      "license": "MIT",
+      "tier": "A",
+      "notes": "~3.2K stars; production tracing + RAG triad; inline eval; feedback functions"
+    },
+    {
+      "name": "DeepEval",
+      "type": "RAG Eval",
+      "license": "MIT",
+      "tier": "A",
+      "notes": "Unit-test-style CI evaluation; pytest integration; agentic eval support"
+    },
+    {
+      "name": "Braintrust",
+      "type": "RAG Eval+Observability",
+      "license": "Proprietary",
+      "tier": "A",
+      "notes": "Production standard; production-to-evaluation feedback; Brainstore 80x query perf"
+    },
+    {
+      "name": "LangSmith",
+      "type": "LLM Observability",
+      "license": "Proprietary",
+      "tier": "A",
+      "notes": "LangChain ecosystem; dataset-driven regression eval; experiment comparison"
+    },
+    {
+      "name": "Firecrawl",
+      "type": "Document Parsing",
+      "license": "Proprietary",
+      "tier": "A",
+      "notes": "API-first web+PDF → Markdown; Rust-based PDF engine; MCP server; RAG-ready"
+    },
+    {
+      "name": "LlamaParse",
+      "type": "Document Parsing",
+      "license": "Proprietary",
+      "tier": "A",
+      "notes": "Agentic OCR for RAG; 90+ formats; 10K free credits/mo; premium GPT-4V mode"
+    },
+    {
+      "name": "Unstructured",
+      "type": "Document Parsing",
+      "license": "Apache-2.0",
+      "tier": "A",
+      "notes": "25+ format semantic extraction; element-typed output; hi_res GPU strategy; $1/1K pages"
+    },
+    {
+      "name": "Docling (IBM)",
+      "type": "Layout Parser",
+      "license": "MIT",
+      "tier": "A",
+      "notes": "61K stars; open-source layout parser; MCP server; LangChain/LlamaIndex integration"
+    },
+    {
+      "name": "Reducto",
+      "type": "Document Parsing",
+      "license": "Proprietary",
+      "tier": "B",
+      "notes": "Agentic OCR correction; ~20% higher accuracy; SOC 2/HIPAA; on-prem; ~$0.03/page"
+    },
+    {
+      "name": "LandingAI ADE",
+      "type": "Document Parsing",
+      "license": "Proprietary",
+      "tier": "B",
+      "notes": "Regulated industries; visual grounding; DPT-2; 99.16% DocVQA (self-reported); $0.03/page"
+    },
+    {
+      "name": "Mistral OCR 3",
+      "type": "Document Parsing",
+      "license": "Proprietary",
+      "tier": "B",
+      "notes": "VLM-based document understanding; page-image → structured output; flexible but slower"
+    },
+    {
+      "name": "Marker-PDF",
+      "type": "Document Parsing",
+      "license": "Apache-2.0",
+      "tier": "B",
+      "notes": "36K stars; GPU-accelerated layout-perfect Markdown; multi-format PDF/PPTX/DOCX/EPUB"
+    },
+    {
+      "name": "pdfmux",
+      "type": "Document Parsing",
+      "license": "MIT",
+      "tier": "C",
+      "notes": "Self-hosted; confidence-scored; 0.905 on opendataloader-bench; CPU-only; free"
+    },
+    {
+      "name": "MinerU / MinerU-Popo",
+      "type": "Document Parsing",
+      "license": "Apache-2.0",
+      "tier": "C",
+      "notes": "Academic/Research; post-processing OCR for cross-page continuity; SJTU/SHAI Lab; 4B model"
+    },
+    {
+      "name": "AWS Textract",
+      "type": "Document Parsing",
+      "license": "Proprietary",
+      "tier": "B",
+      "notes": "AWS ecosystem; enterprise OCR at scale; DetectDocumentText, AnalyzeDocument APIs"
+    },
+    {
+      "name": "Google Document AI",
+      "type": "Document Parsing",
+      "license": "Proprietary",
+      "tier": "B",
+      "notes": "GCP ecosystem; 200+ languages, handwriting; Gemini-powered; Layout Parser for RAG"
+    },
+    {
+      "name": "Azure Document Intelligence",
+      "type": "Document Parsing",
+      "license": "Proprietary",
+      "tier": "B",
+      "notes": "Azure ecosystem; enterprise compliance; prebuilt + custom models; container on-prem"
+    },
+    {
+      "name": "Docsumo",
+      "type": "Document Parsing",
+      "license": "Proprietary",
+      "tier": "B",
+      "notes": "Finance/ops; no-code document workflows; 95%+ extraction accuracy; validation rules"
+    },
+    {
+      "name": "Cohere Rerank",
+      "type": "Reranker",
+      "license": "Proprietary",
+      "tier": "A",
+      "notes": "Cross-encoder reranking; rerank-v3.5; multilingual; high availability"
+    },
+    {
+      "name": "Voyage AI Rerank",
+      "type": "Reranker",
+      "license": "Proprietary",
+      "tier": "A",
+      "notes": "Instruction-following reranker; rerank-2.5; agent/conversation tuned; lightweight"
+    },
+    {
+      "name": "ZeroEntropy zerank-1",
+      "type": "Reranker",
+      "license": "Proprietary",
+      "tier": "B",
+      "notes": "Fastest latency; 60ms; 0.89 NDCG@10 healthcare; flexible licensing"
+    },
+    {
+      "name": "BGE Reranker v2",
+      "type": "Reranker",
+      "license": "MIT",
+      "tier": "B",
+      "notes": "Open-source; Chinese+English; cross-encoder; widely used in Asian deployments"
+    },
+    {
+      "name": "Jina AI Rerank",
+      "type": "Reranker",
+      "license": "Apache-2.0",
+      "tier": "B",
+      "notes": "Open-weight; multimodal reranker; images + PDFs; late chunking support"
+    },
+    {
+      "name": "Pinecone Nexus",
+      "type": "Knowledge Engine",
+      "license": "Proprietary",
+      "tier": "B",
+      "notes": "New (2026); agent knowledge infrastructure; task-specific knowledge representations"
+    },
+    {
+      "name": "Chroma Context-1",
+      "type": "Agentic Search",
+      "license": "Apache-2.0",
+      "tier": "B",
+      "notes": "New (2026); retrieval subagent; query decomposition; iterative search; context mgmt"
+    },
+    {
+      "name": "Weaviate Engram",
+      "type": "Agent Memory",
+      "license": "Proprietary",
+      "tier": "B",
+      "notes": "New (2026); memory layer for agents; interaction records; topic organization; merge/delete"
+    },
+    {
+      "name": "Onyx (Danswer)",
+      "type": "Enterprise RAG Platform",
+      "license": "MIT",
+      "tier": "B",
+      "notes": "~40+ connectors; open-source Glean alternative; self-hostable; air-gapped; Netflix, Ramp"
+    },
+    {
+      "name": "Glean",
+      "type": "Enterprise AI Search",
+      "license": "Proprietary",
+      "tier": "A",
+      "notes": "100+ connectors; premium workplace search; $50+/user/mo; cloud-only (no true self-host)"
+    },
+    {
+      "name": "Microsoft Copilot / M365",
+      "type": "Enterprise AI Search",
+      "license": "Proprietary",
+      "tier": "A",
+      "notes": "M365 ecosystem; embedded AI across Office; $30/user add-on; requires full M365"
+    },
+    {
+      "name": "SphereIQ",
+      "type": "Enterprise RAG Platform",
+      "license": "Proprietary",
+      "tier": "B",
+      "notes": "Regulated industries; EU AI Act compliance wizard; self-hosted default; BYOK LLM"
+    },
+    {
+      "name": "PipesHub",
+      "type": "Enterprise RAG Platform",
+      "license": "Open source",
+      "tier": "B",
+      "notes": "Knowledge graph architecture; Google/MS connectors; on-prem + cloud; model-agnostic"
+    },
+    {
+      "name": "Guru",
+      "type": "Knowledge Management",
+      "license": "Proprietary",
+      "tier": "B",
+      "notes": "Curated knowledge; verified, governance-first; $15/user; real-time contextual suggestions"
+    },
+    {
+      "name": "GoSearch",
+      "type": "Enterprise AI Search",
+      "license": "Proprietary",
+      "tier": "B",
+      "notes": "Freemium; federated-first, agentic; transparent pricing; configurable LLMs"
+    },
+    {
+      "name": "Coveo",
+      "type": "Enterprise Search",
+      "license": "Proprietary",
+      "tier": "B",
+      "notes": "Customer-facing; ML-driven relevance; Salesforce/SAP integration; hybrid"
+    },
+    {
+      "name": "Algolia",
+      "type": "Search API",
+      "license": "Proprietary",
+      "tier": "B",
+      "notes": "Developer-driven; fast application search; $1.50/1K requests; not internal KB search"
+    },
+    {
+      "name": "Meilisearch",
+      "type": "Search Engine",
+      "license": "MIT",
+      "tier": "B",
+      "notes": "Modern hybrid; search engine + vector store; /chat API; often replaces standalone vector DB"
+    },
+    {
+      "name": "Typesense",
+      "type": "Search Engine",
+      "license": "GPL-3.0",
+      "tier": "B",
+      "notes": "Developer-friendly; typo-tolerant search; no native vector (as of 2026); hybrid via partners"
+    },
+    {
+      "name": "Neo4j",
+      "type": "Graph Database",
+      "license": "GPL/Proprietary",
+      "tier": "B",
+      "notes": "Knowledge graph + vectors; Cypher queries; GDS library; graph-native RAG"
+    },
+    {
+      "name": "Amazon Neptune",
+      "type": "Graph DB (Managed)",
+      "license": "Proprietary",
+      "tier": "B",
+      "notes": "AWS ecosystem; RDF + property graphs; fully managed; optimized for connected data"
+    },
+    {
+      "name": "ArangoDB",
+      "type": "Multi-Model DB",
+      "license": "Apache-2.0",
+      "tier": "B",
+      "notes": "Enterprise; graph + document + vector; flexible hybrid RAG; multi-model queries"
+    },
+    {
+      "name": "Actian VectorAI DB",
+      "type": "Vector+Analytics",
+      "license": "Proprietary",
+      "tier": "B",
+      "notes": "Enterprise; offline multimodal copilot; named vectors; filtered search; hybrid RRF fusion"
+    },
+    {
+      "name": "KDB.AI",
+      "type": "Time-Series+Vector",
+      "license": "Proprietary",
+      "tier": "B",
+      "notes": "Finance/quant; unified qFlat, IVF, HNSW; quant-specific; high-throughput ingestion"
+    },
+    {
+      "name": "Deep Lake (Activeloop)",
+      "type": "Data Lake+Vector",
+      "license": "Apache-2.0",
+      "tier": "B",
+      "notes": "ML pipelines; tensor storage + vector search; inverted + BM25 indexes; dataset optimization"
+    },
+    {
+      "name": "Vectorize AI",
+      "type": "RAG Data Prep",
+      "license": "Proprietary",
+      "tier": "C",
+      "notes": "Seed stage ($3.6M); unstructured → vector DB optimization; data integration for RAG"
+    },
+    {
+      "name": "Ollama",
+      "type": "Local LLM Serving",
+      "license": "MIT",
+      "tier": "B",
+      "notes": "Massive adoption; on-premise; 52M monthly downloads; not for multi-tenant production"
+    },
+    {
+      "name": "vLLM",
+      "type": "Local LLM Serving",
+      "license": "Apache-2.0",
+      "tier": "B",
+      "notes": "Onyx-compatible; air-gapped RAG; PagedAttention; 200+ models"
+    }
+  ]
+}
