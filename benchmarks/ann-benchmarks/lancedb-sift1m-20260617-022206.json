@@ -1,0 +1,42 @@
+{
+  "meta": {
+    "adapter": "lancedb",
+    "dataset": "sift1m",
+    "metric": "euclidean",
+    "timestamp": "2026-06-17T02:22:06.753830+00:00",
+    "harness_version": "2026.06"
+  },
+  "smoke_gate": {
+    "passed": true,
+    "setup_time_ms": 1483,
+    "insert_time_ms": 48,
+    "index_time_ms": 1,
+    "recall_at_10": 1.0,
+    "errors": []
+  },
+  "ann_benchmark": {
+    "dataset": "sift1m",
+    "metric": "euclidean",
+    "recall_at_1": 1.0,
+    "recall_at_10": 0.9999,
+    "recall_at_100": 1.0,
+    "latency_p50_ms": 11.95,
+    "latency_p95_ms": 14.99,
+    "latency_p99_ms": 20.27,
+    "index_build_time_ms": 0,
+    "load_time_ms": 437,
+    "qps": 80.65,
+    "errors": []
+  },
+  "ops_notes": [
+    "Connected to LanceDB at /tmp/lancedb-almanac",
+    "Created table 'almanac-test' with 1000 vectors",
+    "Skipped index creation; using brute-force search for 1000 vectors",
+    "LanceDB index ready (no async wait needed)",
+    "Connected to LanceDB at /tmp/lancedb-almanac",
+    "Created table 'almanac-test' with 100000 vectors",
+    "Skipped index creation; using brute-force search for 100000 vectors",
+    "LanceDB index ready (no async wait needed)",
+    "Cleaned up LanceDB data directory /tmp/lancedb-almanac"
+  ]
+}
