@@ -1,0 +1,42 @@
+{
+  "meta": {
+    "adapter": "faiss",
+    "dataset": "glove-100",
+    "metric": "cosine",
+    "timestamp": "2026-06-17T01:40:42.899730+00:00",
+    "harness_version": "2026.06"
+  },
+  "smoke_gate": {
+    "passed": true,
+    "setup_time_ms": 37,
+    "insert_time_ms": 7,
+    "index_time_ms": 64,
+    "recall_at_10": 0.98,
+    "errors": []
+  },
+  "ann_benchmark": {
+    "dataset": "glove-100",
+    "metric": "cosine",
+    "recall_at_1": 0.796,
+    "recall_at_10": 0.773,
+    "recall_at_100": 0.528,
+    "latency_p50_ms": 0.21,
+    "latency_p95_ms": 0.38,
+    "latency_p99_ms": 0.99,
+    "index_build_time_ms": 4826,
+    "load_time_ms": 201,
+    "qps": 3742.67,
+    "errors": []
+  },
+  "ops_notes": [
+    "FAISS setup: dim=384, metric=cosine",
+    "Loaded 1000 vectors into memory",
+    "Built HNSW index: m=16, efConstruction=64, metric=cosine",
+    "FAISS index ready (no async wait needed)",
+    "FAISS setup: dim=100, metric=cosine",
+    "Loaded 100000 vectors into memory",
+    "Built HNSW index: m=16, efConstruction=128, metric=cosine",
+    "FAISS index ready (no async wait needed)",
+    "FAISS index destroyed"
+  ]
+}
