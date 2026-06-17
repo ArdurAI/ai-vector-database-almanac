@@ -6,6 +6,7 @@ Dependencies: psycopg2-binary, pgvector (PostgreSQL extension)
 """
 
 import time
+import subprocess
 import uuid
 from typing import List, Dict, Any, Optional
 
@@ -13,7 +14,7 @@ from base_adapter import VectorDBAdapter
 
 
 class PgvectorAdapter(VectorDBAdapter):
-    """Adapter for pgvector (PostgreSQL extension)."""
+    """Adapter for pgvector (PostgreSQL extension). Supports Docker auto-start."""
 
     def __init__(self, config: Dict[str, Any]):
         super().__init__(config)
@@ -23,12 +24,34 @@ class PgvectorAdapter(VectorDBAdapter):
         )
         self.conn = None
         self.cursor = None
+        self.use_docker = config.get("use_docker", False)
+        self.container_name = config.get("container_name", "pgvector-almanac")
 
     def setup(self, dimension: int, distance_metric: str) -> None:
         import psycopg2
 
         self.dimension = dimension
         self.distance_metric = distance_metric
+
+        if self.use_docker:
+            subprocess.run(["docker", "rm", "-f", self.container_name], capture_output=True)
+            time.sleep(1)
+            subprocess.run([
+                "docker", "run", "-d", "--name", self.container_name,
+                "-p", "5432:5432",
+                "-e", "POSTGRES_PASSWORD=postgres",
+                "-e", "POSTGRES_DB=almanac",
+                "pgvector/pgvector:pg16"
+            ], check=True, capture_output=True)
+            # Poll until PostgreSQL is ready
+            for _ in range(30):
+                try:
+                    psycopg2.connect(self.conn_string)
+                    break
+                except Exception:
+                    time.sleep(1)
+            else:
+                raise TimeoutError("PostgreSQL did not become ready within 30 seconds")
 
         self.conn = psycopg2.connect(self.conn_string)
         self.conn.autocommit = True
@@ -38,11 +61,11 @@ class PgvectorAdapter(VectorDBAdapter):
         self.cursor.execute("CREATE EXTENSION IF NOT EXISTS vector;")
 
         # Drop table if exists
-        self.cursor.execute(f"DROP TABLE IF EXISTS {self.collection_name};")
+        self.cursor.execute(f'DROP TABLE IF EXISTS "{self.collection_name}";')
 
         # Create table with vector column
         self.cursor.execute(f"""
-            CREATE TABLE {self.collection_name} (
+            CREATE TABLE "{self.collection_name}" (
                 id VARCHAR(64) PRIMARY KEY,
                 embedding vector({dimension}),
                 title TEXT,
@@ -56,7 +79,7 @@ class PgvectorAdapter(VectorDBAdapter):
         for vec, id_, meta in zip(vectors, ids, metadata):
             vec_str = "[" + ",".join(str(v) for v in vec) + "]"
             self.cursor.execute(f"""
-                INSERT INTO {self.collection_name} (id, embedding, title, category)
+                INSERT INTO "{self.collection_name}" (id, embedding, title, category)
                 VALUES (%s, %s::vector, %s, %s)
                 ON CONFLICT (id) DO UPDATE SET
                     embedding = EXCLUDED.embedding,
@@ -77,7 +100,7 @@ class PgvectorAdapter(VectorDBAdapter):
             m = params.get("m", 16) if params else 16
             ef_construction = params.get("ef_construction", 64) if params else 64
             self.cursor.execute(f"""
-                CREATE INDEX ON {self.collection_name}
+                CREATE INDEX ON "{self.collection_name}"
                 USING hnsw (embedding {ops})
                 WITH (m = {m}, ef_construction = {ef_construction});
             """)
@@ -85,7 +108,7 @@ class PgvectorAdapter(VectorDBAdapter):
         elif index_type == "ivfflat":
             lists = params.get("lists", 100) if params else 100
             self.cursor.execute(f"""
-                CREATE INDEX ON {self.collection_name}
+                CREATE INDEX ON "{self.collection_name}"
                 USING ivfflat (embedding {ops})
                 WITH (lists = {lists});
             """)
@@ -97,7 +120,7 @@ class PgvectorAdapter(VectorDBAdapter):
         # PostgreSQL indexes are synchronous on creation
         # But we run ANALYZE to update statistics
         start = time.time()
-        self.cursor.execute(f"ANALYZE {self.collection_name};")
+        self.cursor.execute(f'ANALYZE "{self.collection_name}";')
         elapsed = time.time() - start
         self.log_op(f"await_ready completed in {elapsed:.2f}s (ANALYZE done)")
 
@@ -128,7 +151,7 @@ class PgvectorAdapter(VectorDBAdapter):
 
         self.cursor.execute(f"""
             SELECT id, {distance_expr} AS distance, title, category
-            FROM {self.collection_name}
+            FROM "{self.collection_name}"
             {where_sql}
             ORDER BY distance {order}
             LIMIT %s;
@@ -142,12 +165,20 @@ class PgvectorAdapter(VectorDBAdapter):
 
     def delete(self, ids: List[str]) -> None:
         placeholders = ",".join(["%s"] * len(ids))
-        self.cursor.execute(f"DELETE FROM {self.collection_name} WHERE id IN ({placeholders});", ids)
+        self.cursor.execute(f'DELETE FROM "{self.collection_name}" WHERE id IN ({placeholders});', ids)
 
     def teardown(self) -> Dict[str, Any]:
-        self.cursor.execute(f"DROP TABLE IF EXISTS {self.collection_name};")
+        self.cursor.execute(f'DROP TABLE IF EXISTS "{self.collection_name}";')
         self.log_op(f"Dropped table '{self.collection_name}'")
         self.cursor.close()
+        self.conn.close()
+
+        if self.use_docker:
+            subprocess.run(["docker", "stop", self.container_name], capture_output=True)
+            subprocess.run(["docker", "rm", self.container_name], capture_output=True)
+            self.log_op(f"Stopped and removed Docker container '{self.container_name}'")
+
+        return {"memory_mb": None, "disk_mb": None}
         self.conn.close()
 
         return {"memory_mb": None, "disk_mb": None}
