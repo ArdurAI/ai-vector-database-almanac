@@ -19,6 +19,7 @@ import sys
 import importlib.util
 from pathlib import Path
 from datetime import datetime, timezone
+from typing import List, Dict, Any
 import numpy as np
 
 
@@ -68,20 +69,77 @@ def generate_synthetic_data(count: int, dimension: int, seed: int = 42) -> tuple
     return vectors, ids, metadata
 
 
-def compute_recall_at_k(ground_truth: List[List[str]], results: List[List[str]], k: int) -> float:
-    """Compute recall@k against brute-force ground truth."""
+def load_dataset(dataset_name: str, max_vectors: int = None, max_queries: int = None) -> dict:
+    """Load a real dataset from benchmarks/data/."""
+    data_dir = Path(__file__).parent.parent.parent / "benchmarks" / "data"
+    
+    file_map = {
+        "sift1m": "sift_128_euclidean.npz",
+        "sift-128-euclidean": "sift_128_euclidean.npz",
+        "glove-100": "glove_100_angular.npz",
+        "glove-100-angular": "glove_100_angular.npz",
+    }
+    
+    filename = file_map.get(dataset_name, f"{dataset_name}.npz")
+    filepath = data_dir / filename
+    
+    if not filepath.exists():
+        raise FileNotFoundError(f"Dataset file not found: {filepath}. Available: {list(data_dir.glob('*.npz'))}")
+    
+    print(f"  Loading dataset from {filepath}...")
+    data = np.load(filepath)
+    
+    train = data["train"]
+    test = data["test"]
+    neighbors = data["neighbors"]
+    distance = str(data["distance"]) if "distance" in data else "euclidean"
+    
+    if max_vectors and max_vectors < len(train):
+        train = train[:max_vectors]
+    if max_queries and max_queries < len(test):
+        test = test[:max_queries]
+        neighbors = neighbors[:max_queries]
+    
+    print(f"  Loaded: train={train.shape}, test={test.shape}, neighbors={neighbors.shape}, distance={distance}")
+    
+    return {
+        "train": train,
+        "test": test,
+        "neighbors": neighbors,
+        "distance": distance,
+    }
+
+
+def compute_recall_at_k(ground_truth: List[List[int]], results: List[List[str]], k: int) -> float:
+    """Compute recall@k against brute-force ground truth.
+    
+    ground_truth: list of lists of integer indices (from .npz neighbors)
+    results: list of lists of string IDs (from adapter search)
+    """
     recalls = []
     for gt, res in zip(ground_truth, results):
         gt_set = set(gt[:k])
-        res_set = set(res[:k])
+        res_ints = set()
+        for r in res[:k]:
+            if isinstance(r, str) and r.startswith("vec-"):
+                try:
+                    res_ints.add(int(r.split("-")[1]))
+                except ValueError:
+                    pass
+            elif isinstance(r, int):
+                res_ints.add(r)
+            else:
+                try:
+                    res_ints.add(int(r))
+                except (ValueError, TypeError):
+                    pass
         if gt_set:
-            recalls.append(len(gt_set & res_set) / len(gt_set))
+            recalls.append(len(gt_set & res_ints) / len(gt_set))
     return sum(recalls) / len(recalls) if recalls else 0.0
 
 
 def brute_force_search(vectors: List[List[float]], queries: List[List[float]], top_k: int, metric: str) -> List[List[str]]:
     """Brute-force exact search for ground truth."""
-    import numpy as np
     X = np.array(vectors)
     Q = np.array(queries)
 
@@ -110,7 +168,6 @@ def smoke_gate(adapter: VectorDBAdapter, dimension: int, metric: str) -> dict:
     print(f"\n=== Smoke Gate: {adapter.__class__.__name__} ===")
     results = {"passed": False, "setup_time_ms": 0, "insert_time_ms": 0, "index_time_ms": 0, "recall_at_10": 0.0, "errors": []}
 
-    # Turn 1: Setup
     t0 = time.time()
     try:
         adapter.setup(dimension=dimension, distance_metric=metric)
@@ -121,7 +178,6 @@ def smoke_gate(adapter: VectorDBAdapter, dimension: int, metric: str) -> dict:
         print(f"  FAILED: {e}")
         return results
 
-    # Turn 2: Insert 1,000 vectors
     vectors, ids, metadata = generate_synthetic_data(1000, dimension, seed=42)
     t0 = time.time()
     try:
@@ -133,7 +189,6 @@ def smoke_gate(adapter: VectorDBAdapter, dimension: int, metric: str) -> dict:
         print(f"  FAILED: {e}")
         return results
 
-    # Build index + await
     t0 = time.time()
     try:
         adapter.build_index("hnsw", params={"m": 16, "ef_construction": 64})
@@ -145,17 +200,15 @@ def smoke_gate(adapter: VectorDBAdapter, dimension: int, metric: str) -> dict:
         print(f"  FAILED: {e}")
         return results
 
-    # Turn 3: Query and verify recall
-    query_vectors = vectors[:10]  # Use first 10 vectors as queries (self-search)
+    query_vectors = vectors[:10]
     try:
         ann_results = []
         for qv in query_vectors:
             res = adapter.search(qv, top_k=10)
             ann_results.append([r["id"] for r in res])
 
-        # Ground truth via brute force
         gt = brute_force_search(vectors, query_vectors, 10, metric)
-        recall = compute_recall_at_k(gt, ann_results, 10)
+        recall = compute_recall_at_k([[int(x.split("-")[1]) for x in row] for row in gt], ann_results, 10)
         results["recall_at_10"] = round(recall, 4)
         print(f"  Recall@10: {recall:.4f}")
 
@@ -172,10 +225,9 @@ def smoke_gate(adapter: VectorDBAdapter, dimension: int, metric: str) -> dict:
     return results
 
 
-def run_ann_benchmark(adapter: VectorDBAdapter, dataset_name: str, metric: str) -> dict:
+def run_ann_benchmark(adapter: VectorDBAdapter, dataset_name: str, metric: str, max_vectors: int = None, max_queries: int = None) -> dict:
     """
-    Run ANN-Benchmarks on a synthetic dataset (SIFT1M or GloVe-100 style).
-    In production, this loads real datasets from benchmarks/data/.
+    Run ANN-Benchmarks on a real dataset loaded from benchmarks/data/.
     """
     print(f"\n=== ANN Benchmark: {dataset_name} ===")
     results = {
@@ -188,19 +240,28 @@ def run_ann_benchmark(adapter: VectorDBAdapter, dataset_name: str, metric: str) 
         "latency_p95_ms": 0.0,
         "latency_p99_ms": 0.0,
         "index_build_time_ms": 0,
+        "load_time_ms": 0,
         "qps": 0.0,
         "errors": []
     }
 
-    # Synthetic dataset sizes
-    config = {
-        "sift1m": {"n_vectors": 100000, "n_queries": 100, "dim": 128},
-        "glove-100": {"n_vectors": 100000, "n_queries": 100, "dim": 100},
-    }.get(dataset_name, {"n_vectors": 100000, "n_queries": 100, "dim": 384})
+    try:
+        ds = load_dataset(dataset_name, max_vectors=max_vectors, max_queries=max_queries)
+    except Exception as e:
+        results["errors"].append(f"dataset load: {e}")
+        print(f"  FAILED: {e}")
+        return results
 
-    dim = config["dim"]
-    n_vectors = config["n_vectors"]
-    n_queries = config["n_queries"]
+    dim = ds["train"].shape[1]
+    n_vectors = len(ds["train"])
+    n_queries = len(ds["test"])
+    
+    # Use dataset's native distance if not overridden
+    dataset_metric = ds["distance"]
+    if metric == "cosine" and dataset_metric == "angular":
+        metric = "cosine"  # angular = cosine distance in ANN-benchmarks
+    elif metric == "euclidean" and dataset_metric == "euclidean":
+        metric = "euclidean"
 
     # Setup
     try:
@@ -210,36 +271,49 @@ def run_ann_benchmark(adapter: VectorDBAdapter, dataset_name: str, metric: str) 
         return results
 
     # Load vectors
-    vectors, ids, metadata = generate_synthetic_data(n_vectors, dim, seed=42)
+    ids = [f"vec-{i:07d}" for i in range(n_vectors)]
+    metadata = [{"index": i} for i in range(n_vectors)]
+    vectors = ds["train"].astype(np.float32).tolist()
+    
     t0 = time.time()
-    adapter.load(vectors, ids, metadata)
-    load_time = time.time() - t0
+    try:
+        adapter.load(vectors, ids, metadata)
+        results["load_time_ms"] = int((time.time() - t0) * 1000)
+        print(f"  Load {n_vectors} vectors: {results['load_time_ms']}ms")
+    except Exception as e:
+        results["errors"].append(f"load: {e}")
+        print(f"  FAILED: {e}")
+        return results
 
     # Build index
     t0 = time.time()
-    adapter.build_index("hnsw", params={"m": 16, "ef_construction": 128})
-    adapter.await_ready()
-    results["index_build_time_ms"] = int((time.time() - t0) * 1000)
-
-    # Generate queries
-    rng = np.random.default_rng(123)
-    queries = rng.random((n_queries, dim)).astype(np.float32).tolist()
-
-    # Ground truth
-    gt = brute_force_search(vectors, queries, 100, metric)
+    try:
+        adapter.build_index("hnsw", params={"m": 16, "ef_construction": 128})
+        adapter.await_ready()
+        results["index_build_time_ms"] = int((time.time() - t0) * 1000)
+        print(f"  Build index: {results['index_build_time_ms']}ms")
+    except Exception as e:
+        results["errors"].append(f"build_index: {e}")
+        print(f"  FAILED: {e}")
+        return results
 
     # Run queries and measure latency
+    queries = ds["test"].astype(np.float32).tolist()
+    ground_truth = ds["neighbors"].astype(np.int32).tolist()
+    
     latencies = []
     ann_results = []
-    for qv in queries:
+    for i, qv in enumerate(queries):
         t0 = time.time()
         try:
             res = adapter.search(qv, top_k=100)
         except Exception as e:
-            results["errors"].append(f"search: {e}")
+            results["errors"].append(f"search q{i}: {e}")
             continue
         latencies.append((time.time() - t0) * 1000)
         ann_results.append([r["id"] for r in res])
+        if (i + 1) % 1000 == 0 or (i + 1) == len(queries):
+            print(f"  Queries {i+1}/{len(queries)}...")
 
     if not latencies:
         return results
@@ -247,11 +321,11 @@ def run_ann_benchmark(adapter: VectorDBAdapter, dataset_name: str, metric: str) 
     results["latency_p50_ms"] = round(np.percentile(latencies, 50), 2)
     results["latency_p95_ms"] = round(np.percentile(latencies, 95), 2)
     results["latency_p99_ms"] = round(np.percentile(latencies, 99), 2)
-    results["qps"] = round(n_queries / sum(latencies) * 1000, 2)
+    results["qps"] = round(len(queries) / sum(latencies) * 1000, 2)
 
-    results["recall_at_1"] = round(compute_recall_at_k(gt, ann_results, 1), 4)
-    results["recall_at_10"] = round(compute_recall_at_k(gt, ann_results, 10), 4)
-    results["recall_at_100"] = round(compute_recall_at_k(gt, ann_results, 100), 4)
+    results["recall_at_1"] = round(compute_recall_at_k(ground_truth, ann_results, 1), 4)
+    results["recall_at_10"] = round(compute_recall_at_k(ground_truth, ann_results, 10), 4)
+    results["recall_at_100"] = round(compute_recall_at_k(ground_truth, ann_results, 100), 4)
 
     print(f"  Recall@1:  {results['recall_at_1']}")
     print(f"  Recall@10: {results['recall_at_10']}")
@@ -272,6 +346,8 @@ def main():
     parser.add_argument("--metric", default="cosine", help="Distance metric (cosine, euclidean, dot_product)")
     parser.add_argument("--config", type=json.loads, default="{}", help="Adapter config as JSON dict")
     parser.add_argument("--smoke-only", action="store_true", help="Run only smoke gate")
+    parser.add_argument("--max-vectors", type=int, default=None, help="Limit number of vectors to load")
+    parser.add_argument("--max-queries", type=int, default=None, help="Limit number of queries to run")
     args = parser.parse_args()
 
     adapter = load_adapter(args.adapter, args.config)
@@ -290,7 +366,7 @@ def main():
         sys.exit(0)
 
     # Run ANN benchmark
-    ann_results = run_ann_benchmark(adapter, args.dataset, args.metric)
+    ann_results = run_ann_benchmark(adapter, args.dataset, args.metric, max_vectors=args.max_vectors, max_queries=args.max_queries)
 
     # Teardown
     adapter.teardown()

@@ -3,3 +3,7 @@
 node_modules/
 __pycache__/
 .env
+benchmarks/data/*.npz
+benchmarks/data/*.zip
+benchmarks/data/glove.6B/
+benchmarks/data/sift/
