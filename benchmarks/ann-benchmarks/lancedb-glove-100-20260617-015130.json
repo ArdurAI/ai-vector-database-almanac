@@ -1,0 +1,42 @@
+{
+  "meta": {
+    "adapter": "lancedb",
+    "dataset": "glove-100",
+    "metric": "cosine",
+    "timestamp": "2026-06-17T01:51:30.617008+00:00",
+    "harness_version": "2026.06"
+  },
+  "smoke_gate": {
+    "passed": true,
+    "setup_time_ms": 3204,
+    "insert_time_ms": 136,
+    "index_time_ms": 3,
+    "recall_at_10": 1.0,
+    "errors": []
+  },
+  "ann_benchmark": {
+    "dataset": "glove-100",
+    "metric": "cosine",
+    "recall_at_1": 0.0,
+    "recall_at_10": 0.0,
+    "recall_at_100": 0.0,
+    "latency_p50_ms": 0.0,
+    "latency_p95_ms": 0.0,
+    "latency_p99_ms": 0.0,
+    "index_build_time_ms": 0,
+    "load_time_ms": 57,
+    "qps": 0.0,
+    "errors": [
+      "build_index: lance error: Invalid user input: num_sub_vectors must divide vector dimension 100, but got 16, /Users/runner/.cargo/git/checkouts/lance-8ddea23c38163eda/a93eaad/rust/lance-index/src/vector/pq/utils.rs:28:13"
+    ]
+  },
+  "ops_notes": [
+    "Connected to LanceDB at /tmp/lancedb-almanac",
+    "Created table 'almanac-test' with 1000 vectors",
+    "Skipped index creation for small dataset (1000 vectors); using brute-force search",
+    "LanceDB index ready (no async wait needed)",
+    "Connected to LanceDB at /tmp/lancedb-almanac",
+    "Created table 'almanac-test' with 10000 vectors",
+    "Cleaned up LanceDB data directory /tmp/lancedb-almanac"
+  ]
+}

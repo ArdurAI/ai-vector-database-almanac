@@ -1,0 +1,42 @@
+{
+  "meta": {
+    "adapter": "chroma",
+    "dataset": "glove-100",
+    "metric": "cosine",
+    "timestamp": "2026-06-17T01:46:45.326762+00:00",
+    "harness_version": "2026.06"
+  },
+  "smoke_gate": {
+    "passed": true,
+    "setup_time_ms": 3026,
+    "insert_time_ms": 220,
+    "index_time_ms": 0,
+    "recall_at_10": 1.0,
+    "errors": []
+  },
+  "ann_benchmark": {
+    "dataset": "glove-100",
+    "metric": "cosine",
+    "recall_at_1": 0.64,
+    "recall_at_10": 0.714,
+    "recall_at_100": 0.8004,
+    "latency_p50_ms": 1.47,
+    "latency_p95_ms": 4.58,
+    "latency_p99_ms": 11.74,
+    "index_build_time_ms": 0,
+    "load_time_ms": 1259,
+    "qps": 485.99,
+    "errors": []
+  },
+  "ops_notes": [
+    "Created collection 'almanac-test' with metric=cosine, dim=384",
+    "Added 1000 vectors to Chroma",
+    "Chroma HNSW index auto-built (m=16, ef_construction=64)",
+    "Chroma collection ready (no async wait needed)",
+    "Created collection 'almanac-test' with metric=cosine, dim=100",
+    "Added 10000 vectors to Chroma",
+    "Chroma HNSW index auto-built (m=16, ef_construction=128)",
+    "Chroma collection ready (no async wait needed)",
+    "Deleted collection 'almanac-test'"
+  ]
+}

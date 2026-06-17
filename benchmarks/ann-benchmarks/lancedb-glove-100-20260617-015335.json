@@ -1,0 +1,42 @@
+{
+  "meta": {
+    "adapter": "lancedb",
+    "dataset": "glove-100",
+    "metric": "cosine",
+    "timestamp": "2026-06-17T01:53:35.986347+00:00",
+    "harness_version": "2026.06"
+  },
+  "smoke_gate": {
+    "passed": true,
+    "setup_time_ms": 2077,
+    "insert_time_ms": 126,
+    "index_time_ms": 5,
+    "recall_at_10": 1.0,
+    "errors": []
+  },
+  "ann_benchmark": {
+    "dataset": "glove-100",
+    "metric": "cosine",
+    "recall_at_1": 0.284,
+    "recall_at_10": 0.3788,
+    "recall_at_100": 0.441,
+    "latency_p50_ms": 6.02,
+    "latency_p95_ms": 9.71,
+    "latency_p99_ms": 16.18,
+    "index_build_time_ms": 15729,
+    "load_time_ms": 754,
+    "qps": 152.61,
+    "errors": []
+  },
+  "ops_notes": [
+    "Connected to LanceDB at /tmp/lancedb-almanac",
+    "Created table 'almanac-test' with 1000 vectors",
+    "Skipped index creation for small dataset (1000 vectors); using brute-force search",
+    "LanceDB index ready (no async wait needed)",
+    "Connected to LanceDB at /tmp/lancedb-almanac",
+    "Created table 'almanac-test' with 100000 vectors",
+    "Built IVF_PQ index with metric=cosine, partitions=256, sub_vectors=10",
+    "LanceDB index ready (no async wait needed)",
+    "Cleaned up LanceDB data directory /tmp/lancedb-almanac"
+  ]
+}
