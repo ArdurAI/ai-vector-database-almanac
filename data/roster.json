@@ -3,7 +3,7 @@
     "name": "Vector Databases & RAG Infrastructure Almanac Roster",
     "version": "2026-06",
     "generated_at": "2026-06-16T22:46:00Z",
-    "total_tools": 80,
+    "total_tools": 86,
     "parent_almanac": "ArdurAI/ai-infrastructure-almanac",
     "research_method": "8-facet wide exploration, 112+ independent searches, 8 parallel agents"
   },
@@ -564,11 +564,46 @@
       "notes": "Massive adoption; on-premise; 52M monthly downloads; not for multi-tenant production"
     },
     {
-      "name": "vLLM",
-      "type": "Local LLM Serving",
+      "name": "TiDB Vector Search",
+      "type": "Distributed SQL+Vector",
       "license": "Apache-2.0",
       "tier": "B",
-      "notes": "Onyx-compatible; air-gapped RAG; PagedAttention; 200+ models"
+      "notes": "MySQL-compatible distributed DB with vector search; HNSW index; SQL+vector in one query; TiDB Cloud managed option"
+    },
+    {
+      "name": "RAGFlow",
+      "type": "RAG Engine",
+      "license": "Apache-2.0",
+      "tier": "B",
+      "notes": "Open-source RAG engine with deep document understanding; GraphRAG support; Elasticsearch/Infinity backends; Docker deployment"
+    },
+    {
+      "name": "PyMuPDF4LLM",
+      "type": "Document Parsing",
+      "license": "AGPL-3.0",
+      "tier": "B",
+      "notes": "Fast lightweight PDF→Markdown; MuPDF C engine; hybrid OCR; native LlamaIndex/LangChain integration; free"
+    },
+    {
+      "name": "Infinity",
+      "type": "Vector Database",
+      "license": "Apache-2.0",
+      "tier": "B",
+      "notes": "High-performance vector database; multi-vector retrieval; dense+sparse+full-text hybrid; columnar storage"
+    },
+    {
+      "name": "Jina ColBERT v2",
+      "type": "Late-Interaction Retriever",
+      "license": "Apache-2.0",
+      "tier": "B",
+      "notes": "Token-level multi-vector retrieval; ColBERT architecture; better recall on long documents; 2-3x storage cost"
+    },
+    {
+      "name": "Qwen3-VL-Embedding",
+      "type": "Multimodal Embedding",
+      "license": "Apache-2.0",
+      "tier": "C",
+      "notes": "Multimodal embedding+reranker series; 2B/8B sizes; 30+ languages; 32k token context; Matryoshka Representation Learning"
     }
   ]
 }
