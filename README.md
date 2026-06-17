@@ -4,12 +4,16 @@ A living encyclopedia of vector databases, ANN libraries, and RAG infrastructure
 
 > Vendors publish their own benchmark numbers. Nobody reproduces them independently, and nobody evaluates tools the way a platform engineer has to live with them: ops burden, failure modes, scale curves, and cost. This almanac is the public record of that work.
 
+## Current status
+
+**Founding edition (2026-06)**: 80 tools catalogued, 5 Tier A vector database deep-dives published, methodology frozen. No independent benchmark results yet — first benchmark batch scheduled for July 2026.
+
 ## How to use this repo
 
 | You want… | Go to |
 |-----------|-------|
-| The state of the landscape right now | The latest file in `editions/` |
-| Everything we know about one tool | `tools/<name>.md` |
+| The state of the landscape right now | `editions/2026-06.md` |
+| Everything we know about one tool | `tools/<name>.md` (see below) |
 | Machine-readable roster + metadata | `data/roster.json` |
 | Architecture diagrams | `architecture.md` |
 | Benchmark results (rolling) | `benchmarks/` |
@@ -19,6 +23,16 @@ A living encyclopedia of vector databases, ANN libraries, and RAG infrastructure
 | Testing methodology & benchmarks | `TESTING.md` |
 | Troubleshooting & debugging | `TROUBLESHOOTING.md` |
 | How to contribute | `CONTRIBUTING.md` |
+
+## Tool deep-dives (published)
+
+| Tool | Tier | File | Notes |
+|------|------|------|-------|
+| **Pinecone** | A | [`tools/pinecone.md`](tools/pinecone.md) | Managed leader; zero ops; cost cliff at scale |
+| **Qdrant** | A | [`tools/qdrant.md`](tools/qdrant.md) | Best self-hosted dedicated; Rust; BQ; $50M Series B |
+| **Weaviate** | A | [`tools/weaviate.md`](tools/weaviate.md) | Best hybrid search; MCP server; multimodal |
+| **Milvus** | A | [`tools/milvus.md`](tools/milvus.md) | Billion-scale; GPU CAGRA; K8s-native; complex ops |
+| **pgvector** | A | [`tools/pgvector.md`](tools/pgvector.md) | Postgres extension; default for <10M vectors; pgvectorscale |
 
 ## The roster
 
