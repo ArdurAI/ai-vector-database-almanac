@@ -329,8 +329,8 @@
       "name": "Marker-PDF",
       "type": "Document Parsing",
       "license": "Apache-2.0",
-      "tier": "B",
-      "notes": "36K stars; GPU-accelerated layout-perfect Markdown; multi-format PDF/PPTX/DOCX/EPUB"
+      "tier": "A",
+      "notes": "36K stars; GPU-accelerated layout-perfect Markdown; multi-format PDF/PPTX/DOCX/EPUB; batch mode 25 pages/sec on H100"
     },
     {
       "name": "pdfmux",
