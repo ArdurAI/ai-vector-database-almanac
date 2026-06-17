@@ -2,10 +2,10 @@
   "meta": {
     "name": "Vector Databases & RAG Infrastructure Almanac Roster",
     "version": "2026-06",
-    "generated_at": "2026-06-16T22:46:00Z",
+    "generated_at": "2026-06-17T04:00:00Z",
     "total_tools": 86,
     "parent_almanac": "ArdurAI/ai-infrastructure-almanac",
-    "research_method": "8-facet wide exploration, 112+ independent searches, 8 parallel agents"
+    "research_method": "8-facet wide exploration, 112+ independent searches, 8 parallel agents; 2026-06 edition: 16 deep-dives, 8 adapters, real benchmarks on GloVe-100 and SIFT-128"
   },
   "category": "vector-databases",
   "category_name": "Vector Databases & RAG Infrastructure",
@@ -15,91 +15,91 @@
       "type": "Managed Vector DB",
       "license": "Proprietary",
       "tier": "A",
-      "notes": "Market leader (~28% share); zero-ops serverless; $0.033/hr; sub-50ms p99 at billion scale"
+      "notes": "Market leader (~28% share); zero-ops serverless; Free Starter / Builder $20/mo / Standard $50/mo / Enterprise $500/mo; sub-50ms p99 at billion scale; BYOC preview; Nexus + KnowQL (May 2026); Dedicated Read Nodes GA Apr 2026"
     },
     {
       "name": "Qdrant",
       "type": "Vector DB",
       "license": "Apache-2.0",
       "tier": "A",
-      "notes": "~22K stars; Rust-based; self-host + cloud; ACORN filtered HNSW; $50M Series B (Mar 2026)"
+      "notes": "~29K stars; Rust-based; self-host + cloud; v1.17.1 (Mar 2026); ACORN filtered HNSW; binary quantization; $50M Series B (Mar 2026); GPU-accelerated indexing on Cloud"
     },
     {
       "name": "Weaviate",
       "type": "Vector DB",
       "license": "BSD-3-Clause",
       "tier": "A",
-      "notes": "~12K stars; hybrid search (BM25+vector); multimodal; GraphQL; Engram memory layer"
+      "notes": "~14K stars; hybrid search (BM25+vector); multimodal; GraphQL; v1.37.0 (Apr 2026); MCP Server; Diversity Search (MMR); Cloud $25/mo sandbox / $45/mo Flex"
     },
     {
       "name": "Milvus",
       "type": "Vector DB",
       "license": "Apache-2.0",
       "tier": "A",
-      "notes": "~42K stars; billion-scale; GPU accel; K8s-native; Zilliz Cloud = managed"
+      "notes": "~43K stars; billion-scale; v2.6.18 (Jun 2026) / v3.0-beta (May 2026); GPU accel; Cardinal engine 10x; K8s-native; Zilliz Cloud = managed"
     },
     {
       "name": "Chroma",
       "type": "Embedded Vector DB",
       "license": "Apache-2.0",
       "tier": "A",
-      "notes": "~16K stars; developer experience; pip install; Rust rewrite 4x faster; Context-1 agentic search"
+      "notes": "~16K stars; developer experience; pip install; v1.5.8 (Apr 2026); EU region support; Rust rewrite 4x faster; Context-1 agentic search"
     },
     {
       "name": "pgvector",
       "type": "Postgres Extension",
       "license": "PostgreSQL",
       "tier": "A",
-      "notes": "~13-20K stars; HNSW + IVFFlat; pgvectorscale adds StreamingDiskANN; up to 5-10M vectors"
+      "notes": "~13-20K stars; HNSW + IVFFlat; v0.8.x (halfvec, sparsevec, binary quantization); pgvectorscale adds StreamingDiskANN; up to 5-10M vectors"
     },
     {
       "name": "Zilliz / Vector Lakebase",
       "type": "Managed (Milvus-based)",
       "license": "Proprietary",
       "tier": "A",
-      "notes": "100B+ scale; lake-native; S3-based Vortex format; on-demand compute; Cardinal engine 10x"
+      "notes": "100B+ scale; lake-native; S3-based Vortex format; on-demand compute; Cardinal engine 10x; Zilliz Cloud storage $0.04/GB (Jan 2026)"
     },
     {
       "name": "Turbopuffer",
       "type": "Managed Serverless",
       "license": "Proprietary",
       "tier": "A",
-      "notes": "Object-storage-first; no namespace limits; 10-100x cheaper at rest; native BM25"
+      "notes": "Object-storage-first; no namespace limits; 10-100x cheaper at rest; native BM25; serverless vector search; managed cloud"
     },
     {
       "name": "Vorkath",
       "type": "Managed Vector DB",
       "license": "Proprietary",
       "tier": "A",
-      "notes": "Bare-metal NVMe; $1/mo for 1M vec/1M q; no cold starts; Vamana graph in RAM"
+      "notes": "Bare-metal NVMe; $1/mo for 1M vec/1M q; no cold starts; Vamana graph in RAM; low-cost managed; high-performance ANN"
     },
     {
       "name": "LanceDB",
       "type": "Embedded/Serverless",
       "license": "Apache-2.0",
       "tier": "A",
-      "notes": "~5K stars; edge, local-first; zero-copy columnar; no server required; Cloud in beta"
+      "notes": "~5K stars; edge, local-first; zero-copy columnar; no server required; Cloud in beta; AWS-validated serverless at billion scale"
     },
     {
       "name": "Elasticsearch / ESRE",
       "type": "Search+Vector",
       "license": "Elastic/AGPLv3",
       "tier": "A",
-      "notes": "~30K+ stars; enterprise search; GPU accel in v3.0; re-added AGPL 2024"
+      "notes": "~30K+ stars; enterprise search; GPU accel in v3.0; re-added AGPL 2024; BM25 + dense + filters; hybrid search"
     },
     {
       "name": "OpenSearch",
       "type": "Search+Vector",
       "license": "Apache-2.0",
       "tier": "A",
-      "notes": "~9.5K stars; AWS alternative; GPU-accelerated indexing v3.0; gRPC + MCP"
+      "notes": "~9.5K stars; AWS alternative; GPU-accelerated indexing v3.0; gRPC + MCP; hybrid search; open-source Elasticsearch fork"
     },
     {
       "name": "Redis Vector",
       "type": "In-Memory Extension",
       "license": "BSD/Proprietary",
       "tier": "A",
-      "notes": "Sub-ms latency; caching; memory-bound; Redis Enterprise Cloud"
+      "notes": "Sub-ms latency; caching; memory-bound; Redis Enterprise Cloud; in-memory vector extension; high-throughput ANN"
     },
     {
       "name": "MongoDB Atlas Vector Search",
@@ -127,7 +127,7 @@
       "type": "End-to-End Vector",
       "license": "Apache-2.0",
       "tier": "B",
-      "notes": "~2K stars; multimodal (text+image+video); built-in embedding; $5.2M seed"
+      "notes": "~2K stars; multimodal (text+image+video); built-in embedding; $5.2M seed; end-to-end vector search; cloud + self-host"
     },
     {
       "name": "ClickHouse",
@@ -190,7 +190,7 @@
       "type": "ANN Library",
       "license": "MIT",
       "tier": "A",
-      "notes": "~39K stars; GPU-accelerated billion-scale; Meta; IVF, HNSW, RaBitQ; cuVS GPU"
+      "notes": "~39K stars; GPU-accelerated billion-scale; Meta; IVF, HNSW, PQ, IVFPQ, RaBitQ; cuVS GPU; research + production library"
     },
     {
       "name": "ScaNN",
@@ -204,7 +204,7 @@
       "type": "ANN Library",
       "license": "Apache-2.0",
       "tier": "B",
-      "notes": "~7K stars; lightweight CPU HNSW; header-only C++; no GPU; 15+ mo since last release"
+      "notes": "~7K stars; lightweight CPU HNSW; header-only C++; no GPU; maintenance mode; stable but infrequent releases"
     },
     {
       "name": "DiskANN",
@@ -568,42 +568,42 @@
       "type": "Distributed SQL+Vector",
       "license": "Apache-2.0",
       "tier": "B",
-      "notes": "MySQL-compatible distributed DB with vector search; HNSW index; SQL+vector in one query; TiDB Cloud managed option"
+      "notes": "MySQL-compatible distributed DB with vector search; HNSW index; SQL+vector in one query; TiDB Cloud managed option; triaged 2026-06"
     },
     {
       "name": "RAGFlow",
       "type": "RAG Engine",
       "license": "Apache-2.0",
       "tier": "B",
-      "notes": "Open-source RAG engine with deep document understanding; GraphRAG support; Elasticsearch/Infinity backends; Docker deployment"
+      "notes": "Open-source RAG engine with deep document understanding; GraphRAG support; Elasticsearch/Infinity backends; Docker deployment; triaged 2026-06"
     },
     {
       "name": "PyMuPDF4LLM",
       "type": "Document Parsing",
       "license": "AGPL-3.0",
       "tier": "B",
-      "notes": "Fast lightweight PDF→Markdown; MuPDF C engine; hybrid OCR; native LlamaIndex/LangChain integration; free"
+      "notes": "Fast lightweight PDF→Markdown; MuPDF C engine; hybrid OCR; native LlamaIndex/LangChain integration; free; triaged 2026-06"
     },
     {
       "name": "Infinity",
       "type": "Vector Database",
       "license": "Apache-2.0",
       "tier": "B",
-      "notes": "High-performance vector database; multi-vector retrieval; dense+sparse+full-text hybrid; columnar storage"
+      "notes": "High-performance vector database; multi-vector retrieval; dense+sparse+full-text hybrid; columnar storage; triaged 2026-06"
     },
     {
       "name": "Jina ColBERT v2",
       "type": "Late-Interaction Retriever",
       "license": "Apache-2.0",
       "tier": "B",
-      "notes": "Token-level multi-vector retrieval; ColBERT architecture; better recall on long documents; 2-3x storage cost"
+      "notes": "Token-level multi-vector retrieval; ColBERT architecture; better recall on long documents; 2-3x storage cost; triaged 2026-06"
     },
     {
       "name": "Qwen3-VL-Embedding",
       "type": "Multimodal Embedding",
       "license": "Apache-2.0",
       "tier": "C",
-      "notes": "Multimodal embedding+reranker series; 2B/8B sizes; 30+ languages; 32k token context; Matryoshka Representation Learning"
+      "notes": "Multimodal embedding+reranker series; 2B/8B sizes; 30+ languages; 32k token context; Matryoshka Representation Learning; triaged 2026-06"
     }
   ]
 }
